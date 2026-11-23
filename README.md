@@ -4,7 +4,9 @@
 
 Site institucional da Piscina Girassol, com apresentação da empresa, categorias de serviços e contato direto com o Dalmir. Desenvolvido em **HTML, CSS e JavaScript**, sem frameworks, dependências externas ou etapa de compilação.
 
-![Página inicial da Piscina Girassol](docs/preview.jpg)
+## 🖥️ Prévia do site
+
+![Página inicial da Piscina Girassol](./docs/preview.jpg)
 
 ## 🏊 Serviços apresentados
 
@@ -74,7 +76,7 @@ Os nomes de arquivos e pastas seguem o padrão em inglês. Classes, variáveis, 
 | Cores, espaçamentos e pontos de adaptação | `styles/main.css` |
 | Nome e cores dos atalhos | `site.webmanifest` |
 
-As fotografias são **ilustrativas**. Os arquivos originais e a referência de contato foram preservados em `assets/images/originals/`.
+Os arquivos originais e a referência de contato foram preservados em `assets/images/originals/`.
 
 ## 📲 Favicons e atalhos
 
