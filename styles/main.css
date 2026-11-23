@@ -1,0 +1,1162 @@
+/* As variáveis centralizam a identidade visual e permitem alternar os temas. */
+:root {
+    color-scheme: light;
+    --fundo: #f5fbfc;
+    --superficie: #ffffff;
+    --superficie-suave: #e8f4f5;
+    --texto: #102e45;
+    --texto-suave: #4a6473;
+    --destaque: #007e80;
+    --turquesa: #27d4cc;
+    --amarelo: #ffd044;
+    --borda: #d7e6e9;
+    --sombra: 0 20px 60px rgb(6 43 72 / 8%);
+    --largura-conteudo: 1200px;
+}
+
+/* O tema escuro mantém os acentos da marca e aumenta a legibilidade dos textos. */
+:root[data-tema="escuro"] {
+    color-scheme: dark;
+    --fundo: #081b2a;
+    --superficie: #102738;
+    --superficie-suave: #173343;
+    --texto: #f0f8fa;
+    --texto-suave: #b1c7d1;
+    --destaque: #51e0d5;
+    --borda: #294252;
+    --sombra: 0 20px 60px rgb(0 0 0 / 18%);
+}
+
+/* Normalização pequena, sem dependência de frameworks ou fontes externas. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+}
+
+body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+figure,
+p,
+h1,
+h2,
+h3 {
+    margin: 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+::selection {
+    background: var(--amarelo);
+    color: #062b48;
+}
+
+/* Foco visível e texto auxiliar preservam a navegação por teclado e leitor de tela. */
+:focus-visible {
+    outline: 3px solid var(--destaque);
+    outline-offset: 5px;
+}
+
+.apenas-leitura {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.pular-conteudo {
+    position: fixed;
+    z-index: 100;
+    top: -6rem;
+    left: 1rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: var(--amarelo);
+    color: #062b48;
+    font-weight: 700;
+}
+
+.pular-conteudo:focus {
+    top: 1rem;
+}
+
+.biblioteca-icones {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.icone {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Componentes de largura, tipografia e ações compartilhados entre as seções. */
+.conteiner {
+    width: min(var(--largura-conteudo), calc(100% - 3rem));
+    margin-inline: auto;
+}
+
+.secao {
+    padding-block: 6rem;
+}
+
+.sobretitulo {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--destaque);
+    font-size: 0.875rem;
+    font-weight: 750;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+h2 {
+    margin-top: 0.85rem;
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    line-height: 1.16;
+    letter-spacing: -0.045em;
+}
+
+h2 span {
+    color: var(--destaque);
+}
+
+.botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    min-height: 3.3rem;
+    padding: 0.85rem 1.35rem;
+    border: 1px solid transparent;
+    border-radius: 0.7rem;
+    background: var(--amarelo);
+    color: #062b48;
+    font-weight: 750;
+    line-height: 1.4;
+    text-align: center;
+    transition: background 180ms ease, transform 180ms ease;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    background: #ffdc70;
+}
+
+.botao-secundario,
+.botao-controle {
+    border-color: var(--borda);
+    background: var(--superficie);
+    color: var(--texto);
+}
+
+.botao-secundario:hover,
+.botao-controle:hover {
+    background: var(--superficie-suave);
+}
+
+.botao-icone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.85rem;
+    height: 2.85rem;
+    border: 1px solid var(--borda);
+    border-radius: 50%;
+    background: var(--superficie);
+    color: var(--texto);
+}
+
+.botao-icone:hover {
+    background: var(--superficie-suave);
+}
+
+.tema-sol,
+[data-tema="escuro"] .tema-lua {
+    display: none;
+}
+
+[data-tema="escuro"] .tema-sol {
+    display: block;
+}
+
+.grupo-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+/* Cabeçalho: a faixa institucional é discreta e a navegação acompanha a rolagem. */
+.faixa-superior {
+    padding-block: 0.45rem;
+    background: #062b48;
+    color: #e1f0f5;
+    font-size: 0.875rem;
+}
+
+.faixa-conteudo,
+.cabecalho-conteudo,
+.navegacao,
+.cabecalho-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+.faixa-conteudo a:hover,
+.navegacao a:hover {
+    color: var(--destaque);
+}
+
+.faixa-conteudo a:hover {
+    color: var(--turquesa);
+}
+
+.cabecalho {
+    position: sticky;
+    z-index: 30;
+    top: 0;
+    border-bottom: 1px solid var(--borda);
+    background: var(--superficie);
+}
+
+.cabecalho-conteudo {
+    position: relative;
+    min-height: 6rem;
+    padding-block: 0.55rem;
+}
+
+.marca {
+    flex-shrink: 0;
+    padding: 0.1rem 0.55rem;
+    border-radius: 0.65rem;
+    background: #ffffff;
+}
+
+.marca img {
+    width: 7rem;
+    height: auto;
+}
+
+.navegacao {
+    gap: 1.8rem;
+    font-size: 0.9375rem;
+    font-weight: 650;
+}
+
+.navegacao a {
+    padding-block: 0.6rem;
+}
+
+.cabecalho-acoes {
+    gap: 0.65rem;
+}
+
+.botao-pequeno {
+    min-height: 2.85rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.875rem;
+}
+
+.botao-menu {
+    display: none;
+}
+
+/* A abertura combina título editorial, fotografia e detalhes nas cores da marca. */
+.apresentacao {
+    overflow: hidden;
+    padding-block: 3rem 4rem;
+    background: radial-gradient(ellipse at 0% 35%, rgb(39 212 204 / 8%), transparent 60%);
+}
+
+.apresentacao-grade {
+    display: grid;
+    grid-template-columns: 1fr 0.94fr;
+    align-items: center;
+    gap: 4rem;
+}
+
+.traco {
+    width: 2rem;
+    height: 3px;
+    background: var(--destaque);
+}
+
+h1 {
+    margin-block: 1.3rem 0.75rem;
+    font-size: clamp(3.5rem, 6.2vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.06em;
+}
+
+h1 span {
+    color: var(--destaque);
+}
+
+.slogan {
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+.texto-apoio {
+    max-width: 32rem;
+    margin-block: 1.3rem 1.8rem;
+    color: var(--texto-suave);
+    font-size: 1.0625rem;
+}
+
+.apresentacao-detalhes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.4rem;
+    margin-top: 1.7rem;
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+.apresentacao-detalhes span {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.apresentacao-detalhes .icone {
+    width: 1.15rem;
+    height: 1.15rem;
+    color: var(--destaque);
+}
+
+.apresentacao-imagem {
+    position: relative;
+    min-height: 34rem;
+    overflow: hidden;
+    border-radius: 1.25rem 5rem 1.25rem 1.25rem;
+    background: #062b48;
+    box-shadow: var(--sombra);
+}
+
+.apresentacao-imagem > img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 56% center;
+}
+
+.apresentacao-imagem::after {
+    position: absolute;
+    inset: 40% 0 0;
+    background: linear-gradient(transparent, rgb(2 24 40 / 90%));
+    content: "";
+}
+
+.apresentacao-imagem figcaption {
+    position: absolute;
+    z-index: 1;
+    right: 1.75rem;
+    bottom: 2.25rem;
+    left: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.selo-sol {
+    display: grid;
+    flex-shrink: 0;
+    width: 3.4rem;
+    height: 3.4rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--amarelo);
+    color: #062b48;
+}
+
+.selo-sol .icone {
+    width: 2rem;
+    height: 2rem;
+}
+
+.aviso-imagem {
+    position: absolute;
+    z-index: 1;
+    right: 1.25rem;
+    bottom: 0.65rem;
+    color: #e3eef3;
+    font-size: 0.75rem;
+}
+
+/* Os atalhos ajudam a encontrar cada categoria sem percorrer toda a página. */
+.faixa-servicos {
+    border-block: 1px solid var(--borda);
+    background: var(--superficie);
+}
+
+.faixa-servicos-grade {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding-block: 1.5rem;
+}
+
+.faixa-servicos a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.875rem;
+    font-weight: 650;
+}
+
+.faixa-servicos a + a {
+    border-left: 1px solid var(--borda);
+}
+
+.faixa-servicos .icone {
+    color: var(--destaque);
+}
+
+/* Os cartões usam uma grade de duas colunas e alturas consistentes. */
+.cabecalho-secao {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+}
+
+.cabecalho-secao > p {
+    max-width: 23rem;
+    color: var(--texto-suave);
+}
+
+.servicos-grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.cartao-servico {
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 1rem;
+    background: var(--superficie);
+    scroll-margin-top: 8rem;
+}
+
+.cartao-imagem {
+    position: relative;
+    overflow: hidden;
+}
+
+.cartao-imagem img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    transition: transform 400ms ease;
+}
+
+.cartao-servico:hover .cartao-imagem img {
+    transform: scale(1.035);
+}
+
+.etiqueta {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 0.4rem;
+    background: #062b48;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.cartao-conteudo {
+    position: relative;
+    padding: 1.8rem;
+}
+
+.icone-servico {
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-bottom: 0.65rem;
+    color: var(--destaque);
+}
+
+.cartao-conteudo h3 {
+    max-width: 27rem;
+    font-size: 1.45rem;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+}
+
+.cartao-conteudo p {
+    margin-block: 0.85rem 1.2rem;
+    color: var(--texto-suave);
+}
+
+.link-servico {
+    display: inline-block;
+    padding-block: 0.4rem;
+    color: var(--destaque);
+    font-weight: 750;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 0.3rem;
+}
+
+.link-servico:hover {
+    text-decoration-color: currentColor;
+}
+
+.nota-imagens {
+    margin-top: 1rem;
+    color: var(--texto-suave);
+    font-size: 0.8125rem;
+    text-align: right;
+}
+
+/* A seção institucional destaca a marca sem inventar métricas ou depoimentos. */
+.secao-empresa {
+    background: #062b48;
+    color: #edf8fb;
+}
+
+.empresa-grade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 5rem;
+}
+
+.secao-empresa .sobretitulo,
+.secao-empresa h2 span {
+    color: var(--turquesa);
+}
+
+.empresa-texto > p {
+    color: #cedfe8;
+}
+
+.empresa-texto > p + p {
+    margin-top: 1rem;
+}
+
+.lista-qualidades {
+    display: grid;
+    gap: 0.85rem;
+    margin: 1.8rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lista-qualidades li {
+    display: flex;
+    align-items: start;
+    gap: 0.7rem;
+}
+
+.lista-qualidades .icone {
+    color: var(--amarelo);
+}
+
+/* O carrossel mantém espaço reservado para evitar saltos durante a troca de imagens. */
+.carrossel {
+    border-radius: 1rem;
+}
+
+.carrossel-quadro {
+    display: grid;
+    grid-template-columns: 1.65fr 1fr;
+    overflow: hidden;
+    border: 1px solid var(--borda);
+    border-radius: 1rem;
+    background: var(--superficie);
+}
+
+.carrossel-quadro > img {
+    width: 100%;
+    height: 28rem;
+    object-fit: cover;
+}
+
+.carrossel-quadro figcaption {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 2.25rem;
+}
+
+.carrossel-quadro h3 {
+    margin-block: 1rem;
+    font-size: clamp(1.7rem, 2.5vw, 2.2rem);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+}
+
+.carrossel-quadro figcaption > p {
+    color: var(--texto-suave);
+}
+
+.carrossel-contagem {
+    margin-top: 2rem;
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+.carrossel-controles {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+}
+
+.botao-controle {
+    min-height: 2.8rem;
+    font-size: 0.875rem;
+}
+
+.carrossel-indicadores {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.carrossel-indicadores button {
+    display: grid;
+    width: 2rem;
+    height: 2.75rem;
+    padding: 0;
+    place-items: center;
+    border: 0;
+    border-radius: 0.4rem;
+    background: transparent;
+}
+
+.carrossel-indicadores button::after {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: var(--texto-suave);
+    content: "";
+}
+
+.carrossel-indicadores button[aria-current="true"]::after {
+    width: 1.4rem;
+    border-radius: 1rem;
+    background: var(--destaque);
+}
+
+/* A área de contato prioriza WhatsApp e e-mail, sem formulário que não envia. */
+.secao-contato {
+    border-block: 1px solid var(--borda);
+    background: var(--superficie-suave);
+}
+
+.contato-grade {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    align-items: center;
+    gap: 4rem;
+}
+
+.contato-grade > div > p:not(.sobretitulo) {
+    max-width: 33rem;
+    margin-block: 1.3rem 1.7rem;
+    color: var(--texto-suave);
+}
+
+.cartao-contato {
+    min-width: 0;
+    padding: 2.25rem;
+    border: 1px solid var(--borda);
+    border-radius: 1rem;
+    background: var(--superficie);
+    font-style: normal;
+}
+
+.contato-responsavel {
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+.cartao-contato h3 {
+    margin-block: 0.15rem 1.5rem;
+    font-size: 2rem;
+    letter-spacing: -0.035em;
+}
+
+.contato-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-top: 1px solid var(--borda);
+}
+
+.contato-item > .icone {
+    color: var(--destaque);
+}
+
+.contato-item span {
+    min-width: 0;
+}
+
+.contato-item small,
+.contato-item strong {
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.contato-item small {
+    color: var(--texto-suave);
+    font-size: 0.875rem;
+}
+
+.contato-item strong {
+    font-size: 1rem;
+    font-weight: 650;
+}
+
+.contato-item:hover strong {
+    color: var(--destaque);
+}
+
+/* O botão flutuante respeita recortes e barras inferiores de dispositivos móveis. */
+.whatsapp-flutuante {
+    position: fixed;
+    z-index: 25;
+    right: max(1.5rem, env(safe-area-inset-right));
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    display: grid;
+    width: 3.6rem;
+    height: 3.6rem;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #087b42;
+    color: #fff;
+    box-shadow: 0 6px 24px rgb(0 0 0 / 20%);
+    transition: transform 180ms ease;
+}
+
+.whatsapp-flutuante:hover {
+    transform: translateY(-3px);
+}
+
+.whatsapp-flutuante .icone {
+    width: 2rem;
+    height: 2rem;
+}
+
+.rodape {
+    padding-block: 2rem;
+    background: var(--superficie);
+}
+
+.rodape-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-right: 4rem;
+}
+
+.marca-rodape {
+    flex-shrink: 0;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.marca-rodape span {
+    color: var(--destaque);
+}
+
+.rodape p,
+.rodape-conteudo > a:last-child {
+    color: var(--texto-suave);
+    font-size: 0.8125rem;
+}
+
+/* Tablets: reduz espaços e reorganiza a navegação sem comprimir os controles. */
+@media (max-width: 1024px) {
+    .apresentacao-grade {
+        gap: 2rem;
+    }
+
+    .apresentacao-imagem {
+        min-height: 31rem;
+    }
+
+    .navegacao {
+        gap: 1.1rem;
+    }
+
+    .contato-cabecalho {
+        display: none;
+    }
+
+    .empresa-grade,
+    .contato-grade {
+        gap: 2.5rem;
+    }
+
+    .carrossel-quadro {
+        grid-template-columns: 1.3fr 1fr;
+    }
+
+    .carrossel-quadro figcaption {
+        padding: 1.75rem;
+    }
+}
+
+/* Tablets menores: o menu vira um painel, com fallback visível sem JavaScript. */
+@media (max-width: 760px) {
+    html {
+        scroll-padding-top: 6rem;
+    }
+
+    .conteiner {
+        width: calc(100% - 2.5rem);
+    }
+
+    .faixa-conteudo {
+        justify-content: center;
+    }
+
+    .faixa-conteudo > a {
+        display: none;
+    }
+
+    .cabecalho-conteudo {
+        flex-wrap: wrap;
+        min-height: 5rem;
+    }
+
+    .marca img {
+        width: 5.8rem;
+    }
+
+    .navegacao {
+        order: 3;
+        width: 100%;
+        justify-content: space-around;
+        gap: 0.6rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .js-ativo .botao-menu {
+        display: inline-flex;
+    }
+
+    .js-ativo .navegacao {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: 0;
+        display: none;
+        padding: 0.75rem;
+        border: 1px solid var(--borda);
+        border-radius: 0 0 0.8rem 0.8rem;
+        background: var(--superficie);
+        box-shadow: var(--sombra);
+    }
+
+    .js-ativo .navegacao.aberto {
+        display: grid;
+    }
+
+    .js-ativo .navegacao a {
+        min-height: 2.75rem;
+        padding: 0.65rem 1rem;
+    }
+
+    .apresentacao {
+        padding-block: 2.5rem 3rem;
+    }
+
+    .apresentacao-grade {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .apresentacao-texto {
+        max-width: 36rem;
+    }
+
+    h1 {
+        font-size: clamp(3.25rem, 10vw, 4.75rem);
+    }
+
+    .apresentacao-imagem {
+        min-height: 26rem;
+    }
+
+    .faixa-servicos-grade {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem 0;
+    }
+
+    .faixa-servicos a {
+        justify-content: start;
+    }
+
+    .faixa-servicos a:nth-child(3) {
+        border-left: 0;
+    }
+
+    .secao {
+        padding-block: 4rem;
+    }
+
+    .cabecalho-secao {
+        align-items: start;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .cabecalho-secao > p {
+        max-width: 34rem;
+    }
+
+    .cartao-conteudo {
+        padding: 1.4rem;
+    }
+
+    .cartao-conteudo h3 {
+        font-size: 1.25rem;
+    }
+
+    .empresa-grade,
+    .contato-grade {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .carrossel-quadro {
+        grid-template-columns: 1fr;
+    }
+
+    .carrossel-quadro > img {
+        height: 22rem;
+    }
+
+    .carrossel-quadro figcaption {
+        min-height: 17rem;
+    }
+
+    .carrossel-contagem {
+        margin-top: 1rem;
+    }
+
+    .rodape-conteudo {
+        align-items: start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+/* Celulares: uma coluna, áreas de toque confortáveis e nenhum conteúdo lateral. */
+@media (max-width: 520px) {
+    .conteiner {
+        width: calc(100% - 2rem);
+    }
+
+    .faixa-superior {
+        font-size: 0.8125rem;
+        text-align: center;
+    }
+
+    .sobretitulo {
+        font-size: 0.875rem;
+        letter-spacing: 0.06em;
+    }
+
+    h1 {
+        font-size: clamp(3rem, 13vw, 4.25rem);
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .grupo-botoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .apresentacao-detalhes {
+        gap: 0.65rem;
+        flex-direction: column;
+    }
+
+    .apresentacao-imagem {
+        min-height: 24rem;
+        border-top-right-radius: 3.5rem;
+    }
+
+    .apresentacao-imagem figcaption {
+        right: 1rem;
+        left: 1rem;
+        gap: 0.75rem;
+        font-size: 0.9375rem;
+    }
+
+    .selo-sol {
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+
+    .faixa-servicos a {
+        align-items: start;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+
+    .faixa-servicos .icone {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .servicos-grade {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .cartao-conteudo h3 {
+        font-size: 1.4rem;
+    }
+
+    .carrossel-quadro > img {
+        height: 17rem;
+    }
+
+    .carrossel-quadro figcaption {
+        min-height: 18rem;
+        padding: 1.5rem;
+    }
+
+    .carrossel-indicadores {
+        gap: 0;
+    }
+
+    .carrossel-indicadores button {
+        width: 1.5rem;
+    }
+
+    .botao-controle {
+        padding-inline: 0.8rem;
+    }
+
+    .cartao-contato {
+        padding: 1.5rem;
+    }
+
+    .contato-item {
+        gap: 0.75rem;
+    }
+
+    .whatsapp-flutuante {
+        right: max(1rem, env(safe-area-inset-right));
+        bottom: calc(1rem + env(safe-area-inset-bottom));
+        width: 3.4rem;
+        height: 3.4rem;
+    }
+}
+
+/* Preferências de acessibilidade têm prioridade sobre efeitos decorativos. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* A impressão remove os controles e preserva informações úteis de contato. */
+@media print {
+    .cabecalho,
+    .faixa-superior,
+    .whatsapp-flutuante,
+    .carrossel-controles {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+        color: #102e45;
+    }
+
+    .secao {
+        padding-block: 2rem;
+    }
+
+    .cartao-servico,
+    .cartao-contato {
+        break-inside: avoid;
+    }
+}

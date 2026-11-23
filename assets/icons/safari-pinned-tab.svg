@@ -1,0 +1,9 @@
+<!-- Versão monocromática para abas fixadas no Safari. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <title>Piscina Girassol</title>
+    <circle cx="40" cy="22" r="10"/>
+    <g fill="none" stroke="#000" stroke-linecap="round" stroke-width="5">
+        <path d="M40 5v3M23 22h3m28 0h3M28 10l3 3m18 18 3 3M28 34l3-3m18-18 3-3"/>
+        <path d="M8 41c8-9 15 9 24 0s16 9 24 0M8 53c8-9 15 9 24 0s16 9 24 0"/>
+    </g>
+</svg>
