@@ -12,6 +12,7 @@
     --borda: #d7e6e9;
     --sombra: 0 20px 60px rgb(6 43 72 / 8%);
     --largura-conteudo: 1200px;
+    --margem-conteudo: 1.5rem;
 }
 
 /* O tema escuro mantém os acentos da marca e aumenta a legibilidade dos textos. */
@@ -139,6 +140,9 @@ h3 {
 .conteiner {
     width: min(var(--largura-conteudo), calc(100% - 3rem));
     margin-inline: auto;
+    /* Só acrescenta proteção quando o recorte do aparelho ultrapassa a margem existente. */
+    padding-left: max(0px, calc(env(safe-area-inset-left, 0px) - var(--margem-conteudo)));
+    padding-right: max(0px, calc(env(safe-area-inset-right, 0px) - var(--margem-conteudo)));
 }
 
 .secao {
@@ -854,6 +858,10 @@ h1 span {
 
 /* Tablets menores: o menu vira um painel, com fallback visível sem JavaScript. */
 @media (max-width: 760px) {
+    :root {
+        --margem-conteudo: 1.25rem;
+    }
+
     html {
         scroll-padding-top: 6rem;
     }
@@ -1000,6 +1008,10 @@ h1 span {
 
 /* Celulares: uma coluna, áreas de toque confortáveis e nenhum conteúdo lateral. */
 @media (max-width: 520px) {
+    :root {
+        --margem-conteudo: 1rem;
+    }
+
     .conteiner {
         width: calc(100% - 2rem);
     }

@@ -5,55 +5,10 @@
     // Habilita os aprimoramentos visuais somente quando o JavaScript está disponível.
     document.documentElement.classList.add("js-ativo");
 
-    // Controla a aparência e preserva a escolha de tema entre visitas.
-    const chavePreferencia = "piscina-girassol-tema";
-    const botaoTema = document.querySelector("#alternar-tema");
-    const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
-    let escolhaManual = false;
-
-    try {
-        escolhaManual = ["claro", "escuro"].includes(localStorage.getItem(chavePreferencia));
-    } catch {
-        // A persistência é opcional e não impede o uso dos controles.
-    }
-
-    function aplicarTema(tema, salvarPreferencia = false) {
-        document.documentElement.dataset.tema = tema;
-        document.querySelector('meta[name="theme-color"]').content = tema === "escuro"
-            ? "#081b2a"
-            : "#f5fbfc";
-
-        // O nome acessível descreve a ação que ocorrerá no próximo clique.
-        const descricaoBotao = `Ativar tema ${tema === "escuro" ? "claro" : "escuro"}`;
-        botaoTema.setAttribute("aria-label", descricaoBotao);
-        botaoTema.title = descricaoBotao;
-
-        if (salvarPreferencia) {
-            escolhaManual = true;
-
-            try {
-                localStorage.setItem(chavePreferencia, tema);
-            } catch {
-                // O tema permanece ativo mesmo quando não é possível armazená-lo.
-            }
-        }
-    }
-
-    aplicarTema(document.documentElement.dataset.tema);
-    botaoTema.addEventListener("click", () => {
-        const novoTema = document.documentElement.dataset.tema === "escuro" ? "claro" : "escuro";
-        aplicarTema(novoTema, true);
-    });
-
-    // Acompanha o sistema enquanto o visitante não escolher um tema manualmente.
-    preferenciaSistema.addEventListener("change", (evento) => {
-        if (!escolhaManual) aplicarTema(evento.matches ? "escuro" : "claro");
-    });
-
     // Abre e fecha a navegação dos celulares mantendo os estados acessíveis em sincronia.
     const botaoMenu = document.querySelector("#alternar-menu");
     const menu = document.querySelector("#menu-principal");
-    const tamanhoCelular = window.matchMedia("(max-width: 760px)");
+    let larguraJanela = window.innerWidth;
 
     function definirMenu(aberto) {
         menu.classList.toggle("aberto", aberto);
@@ -80,8 +35,13 @@
         }
     });
 
-    // Evita manter um menu móvel aberto quando o aparelho muda de orientação.
-    tamanhoCelular.addEventListener("change", () => definirMenu(false));
+    // Fecha ao mudar a largura; a barra de endereço do Safari pode mudar apenas a altura.
+    window.addEventListener("resize", () => {
+        if (window.innerWidth !== larguraJanela) {
+            larguraJanela = window.innerWidth;
+            definirMenu(false);
+        }
+    }, { passive: true });
 
     // Cada serviço inicia uma conversa contextualizada, sem enviar mensagens sozinho.
     document.querySelectorAll("[data-servico]").forEach((link) => {
@@ -145,6 +105,13 @@
         // O módulo permite avançar da última para a primeira e voltar da primeira para a última.
         indiceAtual = (indice + imagens.length) % imagens.length;
         const imagem = imagens[indiceAtual];
+
+        // A seleção considera a largura da tela e a densidade de pixels dos aparelhos.
+        const nomeArquivo = imagem.arquivo.replace(/\.jpg$/, "");
+        imagemCarrossel.srcset = [640, 960, 1280]
+            .map((largura) => `assets/images/responsive/${nomeArquivo}-${largura}.jpg ${largura}w`)
+            .concat(`assets/images/${imagem.arquivo} 1536w`)
+            .join(", ");
         imagemCarrossel.src = `assets/images/${imagem.arquivo}`;
         imagemCarrossel.alt = imagem.descricao;
         tituloImagem.textContent = imagem.titulo;

@@ -38,9 +38,9 @@ const servidor = createServer(async (requisicao, resposta) => {
         const caminhoPublico = caminhoNormalizado.split(sep).join("/");
         const permitido = ["index.html", "favicon.ico", "site.webmanifest", "browserconfig.xml"].includes(caminhoPublico)
             || /^(styles|scripts|assets\/icons)\/[a-z0-9-]+\.(css|js|svg|png)$/.test(caminhoPublico)
-            || /^assets\/images\/[a-z0-9-]+\.(png|jpg|jpeg|webp)$/.test(caminhoPublico);
+            || /^assets\/images\/(responsive\/)?[a-z0-9-]+\.(png|jpg|jpeg|webp)$/.test(caminhoPublico);
 
-        if (!permitido || caminhoPublico === "scripts/server.js") {
+        if (!permitido || ["scripts/server.js", "scripts/sync-site.js"].includes(caminhoPublico)) {
             resposta.writeHead(404);
             resposta.end("Arquivo não encontrado.");
             return;
