@@ -430,15 +430,6 @@ h1 span {
     height: 2rem;
 }
 
-.aviso-imagem {
-    position: absolute;
-    z-index: 1;
-    right: 1.25rem;
-    bottom: 0.65rem;
-    color: #e3eef3;
-    font-size: 0.75rem;
-}
-
 /* Os atalhos ajudam a encontrar cada categoria sem percorrer toda a página. */
 .faixa-servicos {
     border-block: 1px solid var(--borda);
@@ -562,13 +553,6 @@ h1 span {
 
 .link-servico:hover {
     text-decoration-color: currentColor;
-}
-
-.nota-imagens {
-    margin-top: 1rem;
-    color: var(--texto-suave);
-    font-size: 0.8125rem;
-    text-align: right;
 }
 
 /* A seção institucional destaca a marca sem inventar métricas ou depoimentos. */

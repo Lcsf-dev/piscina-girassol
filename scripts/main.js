@@ -90,7 +90,7 @@
         link.href = endereco.href;
     });
 
-    // Conteúdo editorial do carrossel; as imagens são ilustrativas e ficam no projeto.
+    // Conteúdo e imagens locais apresentados no carrossel.
     const imagens = [
         {
             arquivo: "pool-lighting.jpg",
@@ -100,7 +100,7 @@
         },
         {
             arquivo: "pool-cleaning.jpg",
-            descricao: "Comparação ilustrativa de uma piscina antes e depois da limpeza",
+            descricao: "Comparação de uma piscina antes e depois da limpeza",
             titulo: "O cuidado que se vê na água",
             texto: "A limpeza faz parte da rotina de uma piscina bem cuidada e pronta para o lazer."
         },
