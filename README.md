@@ -47,12 +47,12 @@ piscina-girassol/
 ├── assets/
 │   ├── icons/                 # Favicons e ícones por plataforma
 │   └── images/
-│       └── responsive/        # Versões menores das fotografias
+│       └── responsive/       # Versões menores das fotografias
 ├── config/
-│   └── site.json              # Fonte dos contatos e do futuro endereço público
+│   └── site.json             # Fonte dos contatos e do futuro endereço público
 ├── docs/
-│   ├── preview.jpg            # Prévia real da página inicial
-│   └── source-images.zip      # Originais e referência de contato preservados
+│   ├── preview.jpg           # Prévia real da página inicial
+│   └── source-images.zip     # Originais e referência de contato preservados
 ├── scripts/
 │   ├── main.js               # Menu, carrossel e mensagens por serviço
 │   ├── server.js             # Servidor local sem dependências
@@ -61,7 +61,7 @@ piscina-girassol/
 ├── styles/
 │   └── main.css              # Identidade visual e responsividade
 ├── tests/
-│   └── site.spec.js           # Testes dos comportamentos do visitante
+│   └── site.spec.js          # Testes dos comportamentos do visitante
 ├── browserconfig.xml         # Atalhos compatíveis com Windows
 ├── favicon.ico               # Ícone com resoluções 16, 32 e 48
 ├── index.html                # Conteúdo institucional
@@ -72,7 +72,7 @@ piscina-girassol/
 └── README.md
 ```
 
-Os nomes de arquivos e pastas seguem o padrão em inglês. Classes, variáveis, funções, textos e comentários estão em português sempre que aplicável. A indentação usa quatro espaços, definida também no `.editorconfig`.
+Os nomes de arquivos e pastas seguem o padrão em inglês. Classes, variáveis, funções, textos e comentários estão em português. Nomes exigidos pelas linguagens, APIs e formatos de configuração são preservados. A indentação usa quatro espaços, definida também no `.editorconfig`.
 
 ## 🎨 Personalizar
 
@@ -98,9 +98,9 @@ As versões em `responsive/` são necessárias para servir imagens menores em ce
 
 ## 📲 Favicons e atalhos
 
-O projeto inclui **SVG**, **ICO com resoluções de 16, 32 e 48 pixels**, PNGs de **16 e 32 pixels**, ícone **Apple Touch de 180 pixels**, ícones **Android de 192 e 512 pixels**, versão **maskable**, máscara monocromática para abas fixadas do Safari e ícone de **150 pixels para Windows**. Os PNGs avulsos de 48 e 96 pixels, sem referências no site, foram removidos.
+O projeto inclui **SVG**, **ICO com resoluções de 16, 32 e 48 pixels**, PNGs de **16 e 32 pixels**, ícone **Apple Touch de 180 pixels**, ícones **Android de 192 e 512 pixels**, versão adaptável (**maskable**), máscara monocromática para abas fixadas do Safari e ícone de **150 pixels para Windows**.
 
-O manifesto prepara a identidade dos atalhos. O site não implementa funcionamento offline nem um service worker.
+O manifesto prepara a identidade dos atalhos. O site não implementa funcionamento sem conexão nem um `service worker`.
 
 ## ✅ Validação
 
@@ -120,7 +120,7 @@ Use `npm run test:mobile` para testar somente os perfis móveis. As dependência
 
 A bateria cobre computador, iPhone SE, iPhone 17, iPad Mini e Android, incluindo perfis Apple na horizontal. Os perfis Apple usam WebKit; são testes emulados, sem validação em aparelhos físicos. São verificados:
 
-- Layout nas larguras **320, 390, 768, 1024 e 1440 pixels**, sem rolagem horizontal.
+- Layout nos perfis de celular, tablet e computador, sem rolagem horizontal.
 - Menu móvel, fechamento por `Esc`, navegação do carrossel e seleção por indicadores.
 - Alternância de tema e persistência depois de recarregar a página.
 - Tema com armazenamento bloqueado e respeito à preferência do sistema.
@@ -129,7 +129,7 @@ A bateria cobre computador, iPhone SE, iPhone 17, iPad Mini e Android, incluindo
 
 ## 🌐 Publicação
 
-O site é estático: a hospedagem deve servir o `index.html` na raiz, junto dos arquivos CSS, JavaScript, imagens, ícones e manifesto. **Não há build, banco de dados ou backend obrigatório.** O `scripts/server.js` é apenas uma conveniência para desenvolvimento local.
+O site é estático: a hospedagem deve servir o `index.html` na raiz, junto dos arquivos CSS, JavaScript, imagens, ícones e manifesto. **Não há compilação, banco de dados ou aplicação de servidor obrigatória.** O `scripts/server.js` é uma ferramenta para desenvolvimento local.
 
 Publicar o código no GitHub e colocar o site no ar são etapas diferentes. O repositório armazena o projeto; o endereço público do site depende da hospedagem escolhida.
 
