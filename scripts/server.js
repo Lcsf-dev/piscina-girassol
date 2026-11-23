@@ -46,7 +46,7 @@ const servidor = criarServidor(async (requisicao, resposta) => {
             || /^(styles|scripts|assets\/icons)\/[a-z0-9-]+\.(css|js|svg|png)$/.test(caminhoPublico)
             || /^assets\/images\/(responsive\/)?[a-z0-9-]+\.(png|jpg|jpeg|webp)$/.test(caminhoPublico);
 
-        if (!permitido || ["scripts/server.js", "scripts/sync-site.js"].includes(caminhoPublico)) {
+        if (!permitido || ["scripts/server.js", "scripts/sync-site.js", "scripts/build-site.js"].includes(caminhoPublico)) {
             resposta.writeHead(404);
             resposta.end("Arquivo não encontrado.");
             return;

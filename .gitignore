@@ -17,3 +17,9 @@ coverage/
 # Resultados locais dos testes de navegador.
 test-results/
 playwright-report/
+
+# Publicação e cache local da Cloudflare.
+dist/
+.wrangler/
+.dev.vars
+.dev.vars.*

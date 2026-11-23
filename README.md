@@ -4,6 +4,8 @@
 
 Site institucional da Piscina Girassol, com apresentação da empresa, categorias de serviços e contato direto com o Dalmir. Desenvolvido em **HTML, CSS e JavaScript**, sem frameworks ou dependências em produção. O Playwright é usado somente no desenvolvimento, para testes.
 
+🌐 **Site:** [piscinagirassol.pages.dev](https://piscinagirassol.pages.dev/)
+
 ## 🖥️ Prévia do site
 
 ![Página inicial da Piscina Girassol](./docs/preview.jpg)
@@ -54,6 +56,7 @@ piscina-girassol/
 │   ├── preview.jpg           # Prévia real da página inicial
 │   └── source-images.zip     # Originais e referência de contato preservados
 ├── scripts/
+│   ├── build-site.js         # Prepara os arquivos públicos para a Cloudflare
 │   ├── main.js               # Menu, carrossel e mensagens por serviço
 │   ├── server.js             # Servidor local sem dependências
 │   ├── sync-site.js          # Atualiza contatos e metadados no HTML e README
@@ -88,7 +91,13 @@ Os nomes de arquivos e pastas seguem o padrão em inglês. Classes, variáveis, 
 
 Os links finais ficam gravados no HTML e funcionam sem JavaScript. O comando `npm run check` identifica se a configuração mudou sem a sincronização correspondente. Os marcadores `metadados:inicio/fim` e `contatos:inicio/fim` delimitam os trechos atualizados pelo sincronizador.
 
-O endereço público permanece vazio até a definição da hospedagem. Ao preenchê-lo com a URL HTTPS definitiva, `npm run sync` também gera a URL canônica e os endereços absolutos da imagem de compartilhamento.
+O endereço público está configurado para `https://piscinagirassol.pages.dev/`. Se ele mudar, atualize `enderecoPublico` e execute `npm run sync` para gerar a URL canônica e os endereços absolutos da imagem de compartilhamento.
+
+## 💬 Compartilhamento no WhatsApp
+
+A prévia usa o logotipo em fundo branco, com imagem quadrada de **1200 × 1200 pixels**, título da empresa e descrição dos serviços. Os metadados ficam no HTML entregue pela hospedagem, sem depender do JavaScript do visitante.
+
+Para conferir, cole o endereço público em uma conversa e aguarde o cartão aparecer antes de enviar. A apresentação final do cartão é controlada pelo WhatsApp.
 
 ## 🗂️ Arquivos e imagens
 
@@ -129,9 +138,15 @@ A bateria cobre computador, iPhone SE, iPhone 17, iPad Mini e Android, incluindo
 
 ## 🌐 Publicação
 
-O site é estático: a hospedagem deve servir o `index.html` na raiz, junto dos arquivos CSS, JavaScript, imagens, ícones e manifesto. **Não há compilação, banco de dados ou aplicação de servidor obrigatória.** O `scripts/server.js` é uma ferramenta para desenvolvimento local.
+O site é publicado no **Cloudflare Pages**, no projeto `piscinagirassol`. O comando abaixo confere o código, prepara a pasta `dist/` e envia os arquivos, usando a conta autenticada no Wrangler:
 
-Publicar o código no GitHub e colocar o site no ar são etapas diferentes. O repositório armazena o projeto; o endereço público do site depende da hospedagem escolhida.
+```bash
+npm run deploy
+```
+
+`npm run build` apenas copia os arquivos públicos para `dist/`; não compila nem altera o design. Configurações, documentação, testes, dependências e o ZIP de originais ficam fora da publicação. O `scripts/server.js` é usado somente no desenvolvimento local.
+
+O envio ao GitHub mantém o código atualizado no repositório. A publicação na Cloudflare é feita separadamente com `npm run deploy`.
 
 ## 📞 Contato da empresa
 
