@@ -7,9 +7,15 @@
     "scripts": {
         "dev": "node scripts/server.js",
         "start": "node scripts/server.js",
-        "check": "node --check scripts/main.js && node --check scripts/theme.js && node --check scripts/server.js"
+        "sync": "node scripts/sync-site.js",
+        "check": "node --check scripts/main.js && node --check scripts/theme.js && node --check scripts/server.js && node --check scripts/sync-site.js && node scripts/sync-site.js --check",
+        "test": "playwright test",
+        "test:mobile": "playwright test --project=iphone-se --project=iphone --project=iphone-landscape --project=ipad --project=ipad-landscape --project=android"
     },
     "engines": {
         "node": ">=20"
+    },
+    "devDependencies": {
+        "@playwright/test": "^1.65.1"
     }
 }

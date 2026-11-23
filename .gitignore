@@ -13,3 +13,7 @@ Desktop.ini
 *.log
 coverage/
 .cache/
+
+# Resultados locais dos testes de navegador.
+test-results/
+playwright-report/
