@@ -2,7 +2,14 @@
 import { test as teste, expect as esperar } from "@playwright/test";
 import { readFileSync as lerArquivoSincrono } from "node:fs";
 
-const configuracao = JSON.parse(lerArquivoSincrono(new URL("../config/site.json", import.meta.url), "utf8"));
+const htmlPagina = lerArquivoSincrono(new URL("../index.html", import.meta.url), "utf8");
+const blocoConfiguracao = htmlPagina.match(/<script\b[^>]*\bid="configuracao-site"[^>]*>([\s\S]*?)<\/script>/);
+
+if (!blocoConfiguracao) {
+    throw new Error("Configuração do site não encontrada no index.html.");
+}
+
+const configuracao = JSON.parse(blocoConfiguracao[1]);
 
 // Usa toque nos perfis móveis e clique no computador.
 async function acionar(elemento, possuiToque) {
@@ -187,7 +194,10 @@ teste("mantém contatos sincronizados e identidade de compartilhamento disponív
     esperar(dimensoes).toEqual({ largura: 1200, altura: 1200 });
     await esperar(pagina.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
     await esperar(pagina.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "1200");
-    esperar((await requisicao.get("/config/site.json")).status()).toBe(404);
+    await esperar(pagina.locator('meta[name="msapplication-TileColor"]')).toHaveAttribute("content", "#062b48");
+    await esperar(pagina.locator('meta[name="msapplication-TileImage"]')).toHaveAttribute("content", "assets/icons/mstile-150x150.png");
+    esperar((await requisicao.get("/assets/icons/mstile-150x150.png")).status()).toBe(200);
+    esperar((await requisicao.get("/tests/playwright.config.js")).status()).toBe(404);
     esperar((await requisicao.get("/scripts/sync-site.js")).status()).toBe(404);
     esperar((await requisicao.get("/scripts/build-site.js")).status()).toBe(404);
 });

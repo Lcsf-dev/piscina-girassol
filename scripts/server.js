@@ -23,8 +23,7 @@ const tiposConteudo = {
     ".jpeg": "image/jpeg",
     ".webp": "image/webp",
     ".ico": "image/x-icon",
-    ".webmanifest": "application/manifest+json; charset=utf-8",
-    ".xml": "application/xml; charset=utf-8"
+    ".webmanifest": "application/manifest+json; charset=utf-8"
 };
 
 // Entrega somente arquivos públicos, sem expor configurações ou fontes originais.
@@ -42,7 +41,7 @@ const servidor = criarServidor(async (requisicao, resposta) => {
         const caminhoArquivo = resolverCaminho(pastaProjeto, caminhoRelativo);
         const caminhoNormalizado = obterCaminhoRelativo(pastaProjeto, caminhoArquivo);
         const caminhoPublico = caminhoNormalizado.split(separador).join("/");
-        const permitido = ["index.html", "favicon.ico", "site.webmanifest", "browserconfig.xml"].includes(caminhoPublico)
+        const permitido = ["index.html", "favicon.ico", "site.webmanifest"].includes(caminhoPublico)
             || /^(styles|scripts|assets\/icons)\/[a-z0-9-]+\.(css|js|svg|png)$/.test(caminhoPublico)
             || /^assets\/images\/(responsive\/)?[a-z0-9-]+\.(png|jpg|jpeg|webp)$/.test(caminhoPublico);
 

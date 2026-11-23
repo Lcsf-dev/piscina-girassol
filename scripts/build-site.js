@@ -5,6 +5,7 @@ import { fileURLToPath as converterUrlParaCaminho } from "node:url";
 
 const pastaProjeto = resolverCaminho(obterDiretorio(converterUrlParaCaminho(import.meta.url)), "..");
 const pastaPublicacao = resolverCaminho(pastaProjeto, "dist");
+const previaDocumentacao = resolverCaminho(pastaProjeto, "assets/images/preview.jpg");
 
 // Limita a limpeza à pasta gerada pelo próprio comando, dentro deste projeto.
 if (obterDiretorio(pastaPublicacao) !== pastaProjeto || pastaPublicacao === pastaProjeto) {
@@ -19,7 +20,6 @@ const arquivosPublicos = [
     "index.html",
     "favicon.ico",
     "site.webmanifest",
-    "browserconfig.xml",
     "styles/main.css",
     "scripts/main.js",
     "scripts/theme.js",
@@ -30,7 +30,11 @@ const arquivosPublicos = [
 for (const arquivo of arquivosPublicos) {
     const destino = resolverCaminho(pastaPublicacao, arquivo);
     await criarPasta(obterDiretorio(destino), { recursive: true });
-    await copiar(resolverCaminho(pastaProjeto, arquivo), destino, { recursive: true });
+    await copiar(resolverCaminho(pastaProjeto, arquivo), destino, {
+        recursive: true,
+        // A imagem do README fica no repositório, sem duplicar conteúdo na hospedagem.
+        filter: (origem) => origem !== previaDocumentacao
+    });
 }
 
 console.log("Arquivos públicos preparados em dist.");

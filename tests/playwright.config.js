@@ -1,8 +1,14 @@
 // Os perfis Apple usam WebKit; Android e computador usam Chromium.
 import { defineConfig as definirConfiguracao, devices as aparelhos } from "@playwright/test";
+import { dirname as obterDiretorio, resolve as resolverCaminho } from "node:path";
+import { fileURLToPath as converterUrlParaCaminho } from "node:url";
+
+// Mantém servidor e resultados na raiz, mesmo com a configuração dentro de tests.
+const pastaProjeto = resolverCaminho(obterDiretorio(converterUrlParaCaminho(import.meta.url)), "..");
 
 export default definirConfiguracao({
-    testDir: "./tests",
+    testDir: ".",
+    outputDir: resolverCaminho(pastaProjeto, "test-results"),
     fullyParallel: true,
     workers: 2,
     timeout: 25000,
@@ -17,6 +23,7 @@ export default definirConfiguracao({
     // A porta exclusiva evita interferir no servidor usado para editar o site.
     webServer: {
         command: "node scripts/server.js",
+        cwd: pastaProjeto,
         url: "http://127.0.0.1:5511",
         env: { PORT: "5511" },
         reuseExistingServer: false,

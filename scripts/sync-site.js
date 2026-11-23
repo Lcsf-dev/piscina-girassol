@@ -2,10 +2,16 @@
 import { readFile as lerArquivo, writeFile as gravarArquivo } from "node:fs/promises";
 
 const arquivoPagina = new URL("../index.html", import.meta.url);
-const arquivoConfiguracao = new URL("../config/site.json", import.meta.url);
 const arquivoDocumentacao = new URL("../README.md", import.meta.url);
-const configuracao = JSON.parse(await lerArquivo(arquivoConfiguracao, "utf8"));
 const original = await lerArquivo(arquivoPagina, "utf8");
+const blocoConfiguracao = original.match(/<script\b[^>]*\bid="configuracao-site"[^>]*>([\s\S]*?)<\/script>/);
+
+// Os dados permanecem no HTML como JSON não executável, sem um arquivo separado.
+if (!blocoConfiguracao) {
+    throw new Error("Preserve o bloco configuracao-site no index.html.");
+}
+
+const configuracao = JSON.parse(blocoConfiguracao[1]);
 const documentacaoOriginal = await lerArquivo(arquivoDocumentacao, "utf8");
 const apenasVerificar = process.argv.includes("--check");
 
