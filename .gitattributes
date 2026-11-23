@@ -1,0 +1,6 @@
+# Padroniza arquivos de texto e mantém imagens sem conversão de conteúdo.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
