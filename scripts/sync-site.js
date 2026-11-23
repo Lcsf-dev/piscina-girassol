@@ -80,17 +80,23 @@ atualizado = atualizado.replace(
 const imagemSocial = enderecoPublico
     ? new URL("assets/images/social-preview.jpg", enderecoPublico).href
     : "assets/images/social-preview.jpg";
+const tituloCompartilhamento = "Piscina Girassol | Serviços de Piscina";
+const descricaoCompartilhamento = "Limpeza, manutenção, instalação e produtos para sua piscina. Fale com o Dalmir.";
 const metadados = [
     '<meta property="og:site_name" content="Piscina Girassol">',
+    `<meta property="og:title" content="${escaparHtml(tituloCompartilhamento)}">`,
+    `<meta property="og:description" content="${escaparHtml(descricaoCompartilhamento)}">`,
     `<meta property="og:image" content="${escaparHtml(imagemSocial)}">`,
+    ...(enderecoPublico ? [`<meta property="og:image:secure_url" content="${escaparHtml(imagemSocial)}">`] : []),
     '<meta property="og:image:type" content="image/jpeg">',
     '<meta property="og:image:width" content="1200">',
-    '<meta property="og:image:height" content="630">',
-    '<meta property="og:image:alt" content="Piscina Girassol — sua piscina impecável, seu único trabalho é aproveitar.">',
+    '<meta property="og:image:height" content="1200">',
+    '<meta property="og:image:alt" content="Logotipo da Piscina Girassol com sol, nadador e ondas em fundo branco.">',
     '<meta name="twitter:card" content="summary_large_image">',
-    '<meta name="twitter:title" content="Piscina Girassol | Seu único trabalho é aproveitar.">',
-    '<meta name="twitter:description" content="Venda, instalação, limpeza, produtos e manutenção de bombas em um só lugar.">',
-    `<meta name="twitter:image" content="${escaparHtml(imagemSocial)}">`
+    `<meta name="twitter:title" content="${escaparHtml(tituloCompartilhamento)}">`,
+    `<meta name="twitter:description" content="${escaparHtml(descricaoCompartilhamento)}">`,
+    `<meta name="twitter:image" content="${escaparHtml(imagemSocial)}">`,
+    '<meta name="twitter:image:alt" content="Logotipo da Piscina Girassol.">'
 ];
 
 if (enderecoPublico) {

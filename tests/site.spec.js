@@ -157,9 +157,39 @@ teste("mantém contatos sincronizados e identidade de compartilhamento disponív
 
     await esperar(pagina.locator('meta[name="twitter:card"]')).toHaveAttribute("content", "summary_large_image");
     const imagemSocial = await pagina.locator('meta[property="og:image"]').getAttribute("content");
-    esperar((await requisicao.get(imagemSocial)).status()).toBe(200);
+    const enderecoImagem = new URL(imagemSocial, pagina.url());
+
+    // Confere os dados no HTML original, como o WhatsApp os recebe, sem executar scripts.
+    const respostaPagina = await requisicao.get("/");
+    const htmlOriginal = await respostaPagina.text();
+    const cabecalho = htmlOriginal.split("</head>")[0];
+    esperar(cabecalho).toContain('property="og:title"');
+    esperar(cabecalho).toContain('property="og:description"');
+
+    if (configuracao.enderecoPublico) {
+        esperar(enderecoImagem.protocol).toBe("https:");
+        esperar(imagemSocial).toBe(new URL("assets/images/social-preview.jpg", configuracao.enderecoPublico).href);
+        esperar(cabecalho).toContain(`property="og:url" content="${configuracao.enderecoPublico}"`);
+    }
+
+    // Usa a imagem local nos testes para não depender de uma publicação anterior.
+    const respostaImagem = await requisicao.get(enderecoImagem.pathname);
+    esperar(respostaImagem.status()).toBe(200);
+    esperar(respostaImagem.headers()["content-type"]).toContain("image/jpeg");
+    esperar((await respostaImagem.body()).length).toBeLessThan(600000);
+
+    const dimensoes = await pagina.evaluate(async (caminho) => {
+        const imagem = new Image();
+        imagem.src = caminho;
+        await imagem.decode();
+        return { largura: imagem.naturalWidth, altura: imagem.naturalHeight };
+    }, enderecoImagem.pathname);
+    esperar(dimensoes).toEqual({ largura: 1200, altura: 1200 });
+    await esperar(pagina.locator('meta[property="og:image:width"]')).toHaveAttribute("content", "1200");
+    await esperar(pagina.locator('meta[property="og:image:height"]')).toHaveAttribute("content", "1200");
     esperar((await requisicao.get("/config/site.json")).status()).toBe(404);
     esperar((await requisicao.get("/scripts/sync-site.js")).status()).toBe(404);
+    esperar((await requisicao.get("/scripts/build-site.js")).status()).toBe(404);
 });
 
 teste("reconhece gestos horizontais e preserva a rolagem vertical e o multitoque", async ({ page: pagina, hasTouch: possuiToque }) => {
