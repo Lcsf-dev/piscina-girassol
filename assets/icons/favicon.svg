@@ -1,0 +1,13 @@
+<!-- Sol e ondas representam a identidade da Piscina Girassol em tamanho reduzido. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <title>Piscina Girassol</title>
+    <rect width="64" height="64" rx="16" fill="#062b48" />
+    <!-- O amarelo mantém o sol visível nos temas claro e escuro do navegador. -->
+    <g fill="none" stroke="#ffd044" stroke-linecap="round" stroke-width="3">
+        <path d="M40 8v4m0 23v4M24 24h4m24 0h4M29 13l3 3m16 16 3 3M29 35l3-3m16-16 3-3" />
+    </g>
+    <circle cx="40" cy="24" r="9" fill="#ffd044" />
+    <!-- As ondas usam duas cores da marca para manter a leitura do símbolo. -->
+    <path d="M9 39c8-9 15 9 24 0s15 9 22 0" fill="none" stroke="#27d4cc" stroke-linecap="round" stroke-width="5" />
+    <path d="M9 50c8-9 15 9 24 0s15 9 22 0" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="4" />
+</svg>

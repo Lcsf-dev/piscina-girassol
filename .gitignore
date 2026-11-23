@@ -1,0 +1,15 @@
+# Dependências locais e arquivos gerados pelo sistema operacional.
+node_modules/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Credenciais e configurações particulares não devem ir para o GitHub.
+.env
+.env.*
+!.env.example
+
+# Arquivos temporários de ferramentas e verificações locais.
+*.log
+coverage/
+.cache/

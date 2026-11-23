@@ -1,0 +1,15 @@
+{
+    "name": "piscina-girassol",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Site institucional da Piscina Girassol: serviços, produtos e contato direto.",
+    "type": "module",
+    "scripts": {
+        "dev": "node scripts/server.js",
+        "start": "node scripts/server.js",
+        "check": "node --check scripts/main.js && node --check scripts/theme.js && node --check scripts/server.js"
+    },
+    "engines": {
+        "node": ">=20"
+    }
+}
