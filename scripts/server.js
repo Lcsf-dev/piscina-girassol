@@ -1,11 +1,17 @@
 // Disponibiliza o site localmente usando apenas recursos nativos do Node.js.
-import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
-import { dirname, extname, relative, resolve, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+import { createServer as criarServidor } from "node:http";
+import { readFile as lerArquivo } from "node:fs/promises";
+import {
+    dirname as obterDiretorio,
+    extname as obterExtensao,
+    relative as obterCaminhoRelativo,
+    resolve as resolverCaminho,
+    sep as separador
+} from "node:path";
+import { fileURLToPath as converterUrlParaCaminho } from "node:url";
 
 // Resolve a pasta do projeto independentemente do diretório do terminal.
-const pastaProjeto = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const pastaProjeto = resolverCaminho(obterDiretorio(converterUrlParaCaminho(import.meta.url)), "..");
 const porta = Number(process.env.PORT || 5500);
 const tiposConteudo = {
     ".html": "text/html; charset=utf-8",
@@ -22,7 +28,7 @@ const tiposConteudo = {
 };
 
 // Entrega somente arquivos públicos, sem expor configurações ou fontes originais.
-const servidor = createServer(async (requisicao, resposta) => {
+const servidor = criarServidor(async (requisicao, resposta) => {
     if (!["GET", "HEAD"].includes(requisicao.method)) {
         resposta.writeHead(405, { Allow: "GET, HEAD" });
         resposta.end("Método não permitido.");
@@ -33,9 +39,9 @@ const servidor = createServer(async (requisicao, resposta) => {
         const endereco = new URL(requisicao.url, "http://localhost");
         const caminhoPedido = decodeURIComponent(endereco.pathname);
         const caminhoRelativo = caminhoPedido === "/" ? "index.html" : caminhoPedido.slice(1);
-        const caminhoArquivo = resolve(pastaProjeto, caminhoRelativo);
-        const caminhoNormalizado = relative(pastaProjeto, caminhoArquivo);
-        const caminhoPublico = caminhoNormalizado.split(sep).join("/");
+        const caminhoArquivo = resolverCaminho(pastaProjeto, caminhoRelativo);
+        const caminhoNormalizado = obterCaminhoRelativo(pastaProjeto, caminhoArquivo);
+        const caminhoPublico = caminhoNormalizado.split(separador).join("/");
         const permitido = ["index.html", "favicon.ico", "site.webmanifest", "browserconfig.xml"].includes(caminhoPublico)
             || /^(styles|scripts|assets\/icons)\/[a-z0-9-]+\.(css|js|svg|png)$/.test(caminhoPublico)
             || /^assets\/images\/(responsive\/)?[a-z0-9-]+\.(png|jpg|jpeg|webp)$/.test(caminhoPublico);
@@ -46,9 +52,9 @@ const servidor = createServer(async (requisicao, resposta) => {
             return;
         }
 
-        const conteudo = await readFile(caminhoArquivo);
+        const conteudo = await lerArquivo(caminhoArquivo);
         resposta.writeHead(200, {
-            "Content-Type": tiposConteudo[extname(caminhoArquivo)] || "application/octet-stream",
+            "Content-Type": tiposConteudo[obterExtensao(caminhoArquivo)] || "application/octet-stream",
             "X-Content-Type-Options": "nosniff"
         });
         resposta.end(requisicao.method === "HEAD" ? undefined : conteudo);

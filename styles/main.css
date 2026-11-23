@@ -559,7 +559,7 @@ h1 span {
     text-decoration-color: currentColor;
 }
 
-/* A seção institucional destaca a marca sem inventar métricas ou depoimentos. */
+/* Apresentação institucional e lista de qualidades da empresa. */
 .secao-empresa {
     background: #062b48;
     color: #edf8fb;
@@ -692,7 +692,7 @@ h1 span {
     background: var(--destaque);
 }
 
-/* A área de contato prioriza WhatsApp e e-mail, sem formulário que não envia. */
+/* Canais de contato e cartão com os dados do responsável. */
 .secao-contato {
     border-block: 1px solid var(--borda);
     background: var(--superficie-suave);
@@ -856,7 +856,7 @@ h1 span {
     }
 }
 
-/* Tablets menores: o menu vira um painel, com fallback visível sem JavaScript. */
+/* Tablets menores: o menu vira um painel e mantém os links visíveis sem JavaScript. */
 @media (max-width: 760px) {
     :root {
         --margem-conteudo: 1.25rem;

@@ -10,6 +10,7 @@
     const menu = document.querySelector("#menu-principal");
     let larguraJanela = window.innerWidth;
 
+    // Atualiza o estado visual do menu e o texto anunciado pelos leitores de tela.
     function definirMenu(aberto) {
         menu.classList.toggle("aberto", aberto);
         botaoMenu.setAttribute("aria-expanded", String(aberto));
@@ -21,11 +22,15 @@
     });
 
     menu.addEventListener("click", (evento) => {
-        if (evento.target.closest("a")) definirMenu(false);
+        if (evento.target.closest("a")) {
+            definirMenu(false);
+        }
     });
 
     document.addEventListener("click", (evento) => {
-        if (!evento.target.closest(".cabecalho")) definirMenu(false);
+        if (!evento.target.closest(".cabecalho")) {
+            definirMenu(false);
+        }
     });
 
     document.addEventListener("keydown", (evento) => {
@@ -101,6 +106,7 @@
         indicadores.append(indicador);
     });
 
+    // Troca fotografia, legenda e indicador sem modificar a estrutura do carrossel.
     function mostrarImagem(indice) {
         // O módulo permite avançar da última para a primeira e voltar da primeira para a última.
         indiceAtual = (indice + imagens.length) % imagens.length;
@@ -128,13 +134,23 @@
     document.querySelector("#proxima-imagem").addEventListener("click", () => mostrarImagem(indiceAtual + 1));
 
     carrossel.addEventListener("keydown", (evento) => {
-        if (evento.altKey || evento.ctrlKey || evento.metaKey) return;
-        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(evento.key)) return;
+        if (evento.altKey || evento.ctrlKey || evento.metaKey) {
+            return;
+        }
+
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(evento.key)) {
+            return;
+        }
+
         evento.preventDefault();
 
-        if (evento.key === "Home") mostrarImagem(0);
-        else if (evento.key === "End") mostrarImagem(imagens.length - 1);
-        else mostrarImagem(indiceAtual + (evento.key === "ArrowRight" ? 1 : -1));
+        if (evento.key === "Home") {
+            mostrarImagem(0);
+        } else if (evento.key === "End") {
+            mostrarImagem(imagens.length - 1);
+        } else {
+            mostrarImagem(indiceAtual + (evento.key === "ArrowRight" ? 1 : -1));
+        }
     });
 
     // O gesto horizontal não interfere na rolagem vertical da página em celulares.
@@ -147,7 +163,10 @@
     }, { passive: true });
 
     imagemCarrossel.addEventListener("touchend", (evento) => {
-        if (!inicioToque || !evento.changedTouches.length) return;
+        if (!inicioToque || !evento.changedTouches.length) {
+            return;
+        }
+
         const distanciaX = evento.changedTouches[0].clientX - inicioToque.x;
         const distanciaY = evento.changedTouches[0].clientY - inicioToque.y;
         inicioToque = null;

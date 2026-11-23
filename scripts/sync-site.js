@@ -1,17 +1,21 @@
 // Atualiza contatos e metadados no HTML estático, preservando o uso sem JavaScript.
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile as lerArquivo, writeFile as gravarArquivo } from "node:fs/promises";
 
 const arquivoPagina = new URL("../index.html", import.meta.url);
 const arquivoConfiguracao = new URL("../config/site.json", import.meta.url);
 const arquivoDocumentacao = new URL("../README.md", import.meta.url);
-const configuracao = JSON.parse(await readFile(arquivoConfiguracao, "utf8"));
-const original = await readFile(arquivoPagina, "utf8");
-const documentacaoOriginal = await readFile(arquivoDocumentacao, "utf8");
+const configuracao = JSON.parse(await lerArquivo(arquivoConfiguracao, "utf8"));
+const original = await lerArquivo(arquivoPagina, "utf8");
+const documentacaoOriginal = await lerArquivo(arquivoDocumentacao, "utf8");
 const apenasVerificar = process.argv.includes("--check");
 
 // Falha de forma explícita se os pontos de atualização forem removidos por engano.
-if (!original.includes("<!-- metadados:inicio -->") || !original.includes("<!-- metadados:fim -->")
-    || !documentacaoOriginal.includes("<!-- contatos:inicio -->") || !documentacaoOriginal.includes("<!-- contatos:fim -->")) {
+if (
+    !original.includes("<!-- metadados:inicio -->")
+    || !original.includes("<!-- metadados:fim -->")
+    || !documentacaoOriginal.includes("<!-- contatos:inicio -->")
+    || !documentacaoOriginal.includes("<!-- contatos:fim -->")
+) {
     throw new Error("Preserve os marcadores de metadados no HTML e de contatos no README.");
 }
 
@@ -29,8 +33,13 @@ let enderecoPublico = null;
 if (configuracao.enderecoPublico) {
     enderecoPublico = new URL(configuracao.enderecoPublico);
 
-    if (enderecoPublico.protocol !== "https:" || enderecoPublico.search || enderecoPublico.hash
-        || enderecoPublico.username || enderecoPublico.password) {
+    if (
+        enderecoPublico.protocol !== "https:"
+        || enderecoPublico.search
+        || enderecoPublico.hash
+        || enderecoPublico.username
+        || enderecoPublico.password
+    ) {
         throw new Error("O endereço público deve usar HTTPS e não pode conter parâmetros ou fragmentos.");
     }
 
@@ -39,8 +48,11 @@ if (configuracao.enderecoPublico) {
 
 // Escapa conteúdo usado em atributos e textos HTML.
 function escaparHtml(texto) {
-    return texto.replaceAll("&", "&amp;").replaceAll('"', "&quot;")
-        .replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    return texto
+        .replaceAll("&", "&amp;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
 }
 
 // Mantém as mensagens dos botões e troca somente o destinatário dos links nativos.
@@ -55,10 +67,14 @@ let atualizado = original.replace(/href="(https:\/\/wa\.me\/[^\"]+|mailto:[^\"]+
 // Estes marcadores indicam os únicos textos de contato gerenciados pela configuração.
 const telefoneLocal = configuracao.whatsapp.slice(2);
 const telefoneFormatado = `(${telefoneLocal.slice(0, 2)}) ${telefoneLocal.slice(2, -4)}-${telefoneLocal.slice(-4)}`;
-atualizado = atualizado.replace(/(<[^>]+data-contato-email[^>]*>)[^<]*(<\/[^>]+>)/g,
-    (_, abertura, fechamento) => `${abertura}${escaparHtml(configuracao.email)}${fechamento}`);
-atualizado = atualizado.replace(/(<[^>]+data-contato-telefone[^>]*>)[^<]*(<\/[^>]+>)/g,
-    (_, abertura, fechamento) => `${abertura}${telefoneFormatado}${fechamento}`);
+atualizado = atualizado.replace(
+    /(<[^>]+data-contato-email[^>]*>)[^<]*(<\/[^>]+>)/g,
+    (_, abertura, fechamento) => `${abertura}${escaparHtml(configuracao.email)}${fechamento}`
+);
+atualizado = atualizado.replace(
+    /(<[^>]+data-contato-telefone[^>]*>)[^<]*(<\/[^>]+>)/g,
+    (_, abertura, fechamento) => `${abertura}${telefoneFormatado}${fechamento}`
+);
 
 // O domínio só é publicado quando houver um endereço definitivo informado.
 const imagemSocial = enderecoPublico
@@ -100,7 +116,9 @@ if (apenasVerificar && alteracoes.some((alteracao) => alteracao.original !== alt
 } else {
     if (!apenasVerificar) {
         for (const alteracao of alteracoes) {
-            if (alteracao.original !== alteracao.atualizado) await writeFile(alteracao.arquivo, alteracao.atualizado);
+            if (alteracao.original !== alteracao.atualizado) {
+                await gravarArquivo(alteracao.arquivo, alteracao.atualizado);
+            }
         }
     }
 

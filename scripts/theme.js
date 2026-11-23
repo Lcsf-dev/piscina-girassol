@@ -3,16 +3,15 @@
     const chavePreferencia = "piscina-girassol-tema";
     const preferenciaSistema = window.matchMedia("(prefers-color-scheme: dark)");
     let temaSalvo = null;
-    let escolhaManual = false;
 
     // Navegadores com armazenamento bloqueado continuam usando o tema do sistema.
     try {
         temaSalvo = localStorage.getItem(chavePreferencia);
     } catch {
-        temaSalvo = null;
+        // Mantém o valor inicial quando o armazenamento está indisponível.
     }
 
-    escolhaManual = ["claro", "escuro"].includes(temaSalvo);
+    let escolhaManual = ["claro", "escuro"].includes(temaSalvo);
 
     // A mesma função atende à abertura, ao botão e às alterações do sistema.
     function aplicarTema(tema, salvarPreferencia = false) {
@@ -53,6 +52,8 @@
 
     // A escolha explícita do visitante tem prioridade sobre o tema do aparelho.
     preferenciaSistema.addEventListener("change", (evento) => {
-        if (!escolhaManual) aplicarTema(evento.matches ? "escuro" : "claro");
+        if (!escolhaManual) {
+            aplicarTema(evento.matches ? "escuro" : "claro");
+        }
     });
 })();

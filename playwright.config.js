@@ -1,7 +1,7 @@
 // Os perfis Apple usam WebKit; Android e computador usam Chromium.
-import { defineConfig, devices } from "@playwright/test";
+import { defineConfig as definirConfiguracao, devices as aparelhos } from "@playwright/test";
 
-export default defineConfig({
+export default definirConfiguracao({
     testDir: "./tests",
     fullyParallel: true,
     workers: 2,
@@ -22,13 +22,35 @@ export default defineConfig({
         reuseExistingServer: false,
         timeout: 15000
     },
+    // Os nomes dos aparelhos e as opções seguem a API do Playwright.
     projects: [
-        { name: "desktop", use: { ...devices["Desktop Chrome"], browserName: "chromium" } },
-        { name: "iphone-se", use: { ...devices["iPhone SE"], browserName: "webkit" } },
-        { name: "iphone", use: { ...devices["iPhone 17"], browserName: "webkit" } },
-        { name: "iphone-landscape", use: { ...devices["iPhone 17 landscape"], browserName: "webkit" } },
-        { name: "ipad", use: { ...devices["iPad Mini"], browserName: "webkit" } },
-        { name: "ipad-landscape", use: { ...devices["iPad Mini landscape"], browserName: "webkit" } },
-        { name: "android", use: { ...devices["Pixel 7"], browserName: "chromium" } }
+        {
+            name: "computador",
+            use: { ...aparelhos["Desktop Chrome"], browserName: "chromium" }
+        },
+        {
+            name: "iphone-se",
+            use: { ...aparelhos["iPhone SE"], browserName: "webkit" }
+        },
+        {
+            name: "iphone",
+            use: { ...aparelhos["iPhone 17"], browserName: "webkit" }
+        },
+        {
+            name: "iphone-horizontal",
+            use: { ...aparelhos["iPhone 17 landscape"], browserName: "webkit" }
+        },
+        {
+            name: "ipad",
+            use: { ...aparelhos["iPad Mini"], browserName: "webkit" }
+        },
+        {
+            name: "ipad-horizontal",
+            use: { ...aparelhos["iPad Mini landscape"], browserName: "webkit" }
+        },
+        {
+            name: "android",
+            use: { ...aparelhos["Pixel 7"], browserName: "chromium" }
+        }
     ]
 });
