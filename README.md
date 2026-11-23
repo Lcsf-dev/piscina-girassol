@@ -8,7 +8,7 @@ Site institucional da Piscina Girassol, com apresentação da empresa, categoria
 
 ## 🖥️ Prévia do site
 
-![Página inicial da Piscina Girassol](./docs/preview.jpg)
+![Página inicial da Piscina Girassol](./assets/images/preview.jpg)
 
 ## 🏊 Serviços apresentados
 
@@ -47,14 +47,10 @@ O comando `npm start` também inicia o servidor. A página pode ser aberta diret
 ```text
 piscina-girassol/
 ├── assets/
-│   ├── icons/                 # Favicons e ícones por plataforma
+│   ├── icons/                # Favicons e ícones por plataforma
 │   └── images/
+│       ├── preview.jpg       # Imagem da página inicial usada neste README
 │       └── responsive/       # Versões menores das fotografias
-├── config/
-│   └── site.json             # Fonte dos contatos e do futuro endereço público
-├── docs/
-│   ├── preview.jpg           # Prévia real da página inicial
-│   └── source-images.zip     # Originais e referência de contato preservados
 ├── scripts/
 │   ├── build-site.js         # Prepara os arquivos públicos para a Cloudflare
 │   ├── main.js               # Menu, carrossel e mensagens por serviço
@@ -64,13 +60,12 @@ piscina-girassol/
 ├── styles/
 │   └── main.css              # Identidade visual e responsividade
 ├── tests/
+│   ├── playwright.config.js # Perfis de aparelhos e navegadores
 │   └── site.spec.js          # Testes dos comportamentos do visitante
-├── browserconfig.xml         # Atalhos compatíveis com Windows
 ├── favicon.ico               # Ícone com resoluções 16, 32 e 48
 ├── index.html                # Conteúdo institucional
 ├── package.json              # Comandos do projeto
 ├── package-lock.json         # Versões reproduzíveis das ferramentas de teste
-├── playwright.config.js      # Perfis de aparelhos e navegadores
 ├── site.webmanifest          # Nome, cores e ícones para atalhos
 └── README.md
 ```
@@ -82,14 +77,14 @@ Os nomes de arquivos e pastas seguem o padrão em inglês. Classes, variáveis, 
 | Alteração | Onde editar |
 | --- | --- |
 | Textos, categorias e informações da empresa | `index.html` |
-| Número do WhatsApp e endereço de e-mail | `config/site.json`; depois execute `npm run sync` |
+| Número do WhatsApp e endereço de e-mail | Bloco `configuracao-site` no `index.html`; depois execute `npm run sync` |
 | Mensagem específica de cada serviço | Atributos `data-servico` e tratamento em `scripts/main.js` |
 | Fotos e legendas do carrossel | Lista `imagens` em `scripts/main.js` |
 | Cores, espaçamentos e pontos de adaptação | `styles/main.css` |
 | Nome e cores dos atalhos | `site.webmanifest` |
-| Endereço público para compartilhamento e URL canônica | `enderecoPublico` em `config/site.json`; depois execute `npm run sync` |
+| Endereço público para compartilhamento e URL canônica | Campo `enderecoPublico` no bloco `configuracao-site` do HTML; depois execute `npm run sync` |
 
-Os links finais ficam gravados no HTML e funcionam sem JavaScript. O comando `npm run check` identifica se a configuração mudou sem a sincronização correspondente. Os marcadores `metadados:inicio/fim` e `contatos:inicio/fim` delimitam os trechos atualizados pelo sincronizador.
+Os dados ficam em um bloco JSON não executável dentro do próprio HTML, sem pasta de configuração separada. Os links finais continuam gravados no HTML e funcionam sem JavaScript. O comando `npm run check` identifica se os dados mudaram sem a sincronização correspondente. Os marcadores `metadados:inicio/fim` e `contatos:inicio/fim` delimitam os trechos atualizados pelo sincronizador.
 
 O endereço público está configurado para `https://piscinagirassol.pages.dev/`. Se ele mudar, atualize `enderecoPublico` e execute `npm run sync` para gerar a URL canônica e os endereços absolutos da imagem de compartilhamento.
 
@@ -101,13 +96,15 @@ Para conferir, cole o endereço público em uma conversa e aguarde o cartão apa
 
 ## 🗂️ Arquivos e imagens
 
-As seis imagens originais e a referência de contato estão reunidas em [source-images.zip](docs/source-images.zip), fora dos recursos usados pela página. O conteúdo foi conferido com SHA-256 antes da organização. Extraia o ZIP para recuperar os arquivos sem perda.
+As imagens ficam em `assets/images/`. A prévia usada neste README está em `assets/images/preview.jpg` e não é incluída na publicação do site.
 
 As versões em `responsive/` são necessárias para servir imagens menores em celulares e tablets; os arquivos maiores continuam disponíveis para telas de alta densidade. A foto, o enquadramento e o design da página foram preservados.
 
 ## 📲 Favicons e atalhos
 
 O projeto inclui **SVG**, **ICO com resoluções de 16, 32 e 48 pixels**, PNGs de **16 e 32 pixels**, ícone **Apple Touch de 180 pixels**, ícones **Android de 192 e 512 pixels**, versão adaptável (**maskable**), máscara monocromática para abas fixadas do Safari e ícone de **150 pixels para Windows**.
+
+Os dados do ícone e da cor para Windows ficam nos metadados do `index.html`.
 
 O manifesto prepara a identidade dos atalhos. O site não implementa funcionamento sem conexão nem um `service worker`.
 
@@ -125,7 +122,7 @@ npx playwright install chromium webkit
 npm test
 ```
 
-Use `npm run test:mobile` para testar somente os perfis móveis. As dependências e os navegadores são necessários apenas para os testes, sem impacto nos arquivos entregues ao visitante.
+Use `npm run test:mobile` para testar somente os perfis móveis. A configuração está em `tests/playwright.config.js`. As dependências e os navegadores são necessários apenas para os testes, sem impacto nos arquivos entregues ao visitante. `npm ci` recria a pasta local `node_modules/` quando os testes forem necessários.
 
 A bateria cobre computador, iPhone SE, iPhone 17, iPad Mini e Android, incluindo perfis Apple na horizontal. Os perfis Apple usam WebKit; são testes emulados, sem validação em aparelhos físicos. São verificados:
 
@@ -144,7 +141,7 @@ O site é publicado no **Cloudflare Pages**, no projeto `piscinagirassol`. O com
 npm run deploy
 ```
 
-`npm run build` apenas copia os arquivos públicos para `dist/`; não compila nem altera o design. Configurações, documentação, testes, dependências e o ZIP de originais ficam fora da publicação. O `scripts/server.js` é usado somente no desenvolvimento local.
+`npm run build` apenas copia os arquivos públicos para `dist/`; não compila nem altera o design. A prévia do README, a documentação, as ferramentas de desenvolvimento, os testes e as dependências ficam fora da publicação. O `scripts/server.js` é usado somente no desenvolvimento local.
 
 O envio ao GitHub mantém o código atualizado no repositório. A publicação na Cloudflare é feita separadamente com `npm run deploy`.
 
